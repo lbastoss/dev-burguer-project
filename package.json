@@ -1,22 +1,23 @@
 {
-  "name": "devburger-api",
-  "version": "1.0.0",
-  "main": "src/server.js",
-  "scripts": {
-    "dev": "nodemon"
-  },
-  "keywords": [],
-  "author": {
-    "name": "Lucas Bastos",
-    "url": "https://github.com/lbastoss"
-  },
-  "license": "ISC",
-  "description": "Dev Burguer API",
-  "dependencies": {
-    "express": "^4.21.2"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9",
-    "sucrase": "^3.35.0"
-  }
+	"name": "devburger-api",
+	"version": "1.0.0",
+	"main": "src/server.js",
+	"scripts": {
+		"dev": "nodemon"
+	},
+	"keywords": [],
+	"author": {
+		"name": "Lucas Bastos",
+		"url": "https://github.com/lbastoss"
+	},
+	"license": "ISC",
+	"description": "Dev Burguer API",
+	"dependencies": {
+		"express": "^4.21.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"nodemon": "^3.1.9",
+		"sucrase": "^3.35.0"
+	}
 }
