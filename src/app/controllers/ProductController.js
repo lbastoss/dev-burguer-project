@@ -1,7 +1,7 @@
-import * as Yup from 'yup'
-import Product from '../models/Product'
-import Category from '../models/Category'
-import User from '../models/User'
+import * as Yup from 'yup';
+import Product from '../models/Product';
+import Category from '../models/Category';
+import User from '../models/User';
 
 class ProductController {
 	async store(req, res) {
@@ -10,22 +10,22 @@ class ProductController {
 			price: Yup.number().required(),
 			category_id: Yup.number().required(),
 			offer: Yup.boolean(),
-		})
+		});
 
 		try {
-			schema.validateSync(req.body, { abortEarly: false })
+			schema.validateSync(req.body, { abortEarly: false });
 		} catch (err) {
-			return res.status(400).json({ error: err.errors })
+			return res.status(400).json({ error: err.errors });
 		}
 
-		const { admin: isAdmin } = await User.findByPk(req.userId)
+		const { admin: isAdmin } = await User.findByPk(req.userId);
 
 		if (!isAdmin) {
-			return res.status(401).json()
+			return res.status(401).json();
 		}
 
-		const { filename: path } = req.file
-		const { name, price, category_id, offer } = req.body
+		const { filename: path } = req.file;
+		const { name, price, category_id, offer } = req.body;
 
 		const product = await Product.create({
 			name,
@@ -33,9 +33,9 @@ class ProductController {
 			category_id,
 			path,
 			offer,
-		})
+		});
 
-		return res.status(201).json(product)
+		return res.status(201).json(product);
 	}
 
 	async update(req, res) {
@@ -44,35 +44,35 @@ class ProductController {
 			price: Yup.number(),
 			category_id: Yup.number(),
 			offer: Yup.boolean(),
-		})
+		});
 
 		try {
-			schema.validateSync(req.body, { abortEarly: false })
+			schema.validateSync(req.body, { abortEarly: false });
 		} catch (err) {
-			return res.status(400).json({ error: err.errors })
+			return res.status(400).json({ error: err.errors });
 		}
 
-		const { admin: isAdmin } = await User.findByPk(req.userId)
+		const { admin: isAdmin } = await User.findByPk(req.userId);
 
 		if (!isAdmin) {
-			return res.status(401).json()
+			return res.status(401).json();
 		}
 
-		const { id } = req.params
+		const { id } = req.params;
 
-		const findProduct = await Product.findByPk(id)
+		const findProduct = await Product.findByPk(id);
 
 		if (!findProduct) {
-			return res.status(400).json({ error: 'Make sure your product ID is correct' })
+			return res.status(400).json({ error: 'Make sure your product ID is correct' });
 		}
 
-		let path
+		let path;
 
 		if (req.file) {
-			path = req.file.filename
+			path = req.file.filename;
 		}
 
-		const { name, price, category_id, offer } = req.body
+		const { name, price, category_id, offer } = req.body;
 
 		await Product.update(
 			{
@@ -87,9 +87,9 @@ class ProductController {
 					id,
 				},
 			},
-		)
+		);
 
-		return res.status(200).json()
+		return res.status(200).json();
 	}
 
 	async index(req, res) {
@@ -101,10 +101,10 @@ class ProductController {
 					attributes: ['id', 'name'],
 				},
 			],
-		})
+		});
 
-		return res.json(products)
+		return res.json(products);
 	}
 }
 
-export default new ProductController()
+export default new ProductController();

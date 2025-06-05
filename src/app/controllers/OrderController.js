@@ -1,8 +1,8 @@
-import * as Yup from 'yup'
-import Order from '../schemas/Order'
-import Product from '../models/Product'
-import Category from '../models/Category'
-import User from '../models/User'
+import * as Yup from 'yup';
+import Order from '../schemas/Order';
+import Product from '../models/Product';
+import Category from '../models/Category';
+import User from '../models/User';
 
 class OrderController {
 	async store(req, res) {
@@ -15,17 +15,17 @@ class OrderController {
 						quantity: Yup.number().required(),
 					}),
 				),
-		})
+		});
 
 		try {
-			schema.validateSync(req.body, { abortEarly: false })
+			schema.validateSync(req.body, { abortEarly: false });
 		} catch (err) {
-			return res.status(400).json({ error: err.errors })
+			return res.status(400).json({ error: err.errors });
 		}
 
-		const { products } = req.body
+		const { products } = req.body;
 
-		const productsIds = products.map((product) => product.id)
+		const productsIds = products.map((product) => product.id);
 
 		const findProducts = await Product.findAll({
 			where: {
@@ -38,10 +38,10 @@ class OrderController {
 					attributes: ['name'],
 				},
 			],
-		})
+		});
 
 		const formattedProducts = findProducts.map((product) => {
-			const produtcIndex = products.findIndex((item) => item.id === product.id)
+			const produtcIndex = products.findIndex((item) => item.id === product.id);
 
 			const newProduct = {
 				id: product.id,
@@ -50,9 +50,9 @@ class OrderController {
 				price: product.price,
 				url: product.url,
 				quantity: products[produtcIndex].quantity,
-			}
-			return newProduct
-		})
+			};
+			return newProduct;
+		});
 
 		const order = {
 			user: {
@@ -61,47 +61,47 @@ class OrderController {
 			},
 			products: formattedProducts,
 			status: 'Pedido realizado',
-		}
+		};
 
-		const createdOrder = await Order.create(order)
+		const createdOrder = await Order.create(order);
 
-		return res.status(201).json(createdOrder)
+		return res.status(201).json(createdOrder);
 	}
 
 	async index(req, res) {
-		const orders = await Order.find()
+		const orders = await Order.find();
 
-		return res.json(orders)
+		return res.json(orders);
 	}
 
 	async update(req, res) {
 		const schema = Yup.object({
 			status: Yup.string().required(),
-		})
+		});
 
 		try {
-			schema.validateSync(req.body, { abortEarly: false })
+			schema.validateSync(req.body, { abortEarly: false });
 		} catch (err) {
-			return res.status(400).json({ error: err.errors })
+			return res.status(400).json({ error: err.errors });
 		}
 
-		const { admin: isAdmin } = await User.findByPk(req.userId)
+		const { admin: isAdmin } = await User.findByPk(req.userId);
 
 		if (!isAdmin) {
-			return res.status(401).json()
+			return res.status(401).json();
 		}
 
-		const { id } = req.params
-		const { status } = req.body
+		const { id } = req.params;
+		const { status } = req.body;
 
 		try {
-			await Order.updateOne({ _id: id }, { status })
+			await Order.updateOne({ _id: id }, { status });
 		} catch (err) {
-			return res.status(400).json({ error: err.message })
+			return res.status(400).json({ error: err.message });
 		}
 
-		return res.json({ message: 'Status updated sucessfully' })
+		return res.json({ message: 'Status updated sucessfully' });
 	}
 }
 
-export default new OrderController()
+export default new OrderController();
