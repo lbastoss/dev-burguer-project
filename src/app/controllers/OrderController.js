@@ -70,7 +70,6 @@ class OrderController {
 
 	async index(req, res) {
 		const orders = await Order.find();
-
 		return res.json(orders);
 	}
 
