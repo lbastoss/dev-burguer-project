@@ -46,7 +46,7 @@ class OrderController {
 			const newProduct = {
 				id: product.id,
 				name: product.name,
-				category: product.name,
+				category: product.category.name,
 				price: product.price,
 				url: product.url,
 				quantity: products[produtcIndex].quantity,
